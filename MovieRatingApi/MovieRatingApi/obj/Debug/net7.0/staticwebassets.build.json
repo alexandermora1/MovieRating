@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "Hash": "liZDt6ShURlc8hRLqtGNsMWyRUxeS+9BrNKAzANqBxU=",
+  "Source": "MovieRatingApi",
+  "BasePath": "_content/MovieRatingApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "MovieRatingApi/wwwroot",
+      "Source": "MovieRatingApi",
+      "ContentRoot": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/",
+      "BasePath": "_content/MovieRatingApi",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/index.html",
+      "SourceId": "MovieRatingApi",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/",
+      "BasePath": "_content/MovieRatingApi",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ]
+}
