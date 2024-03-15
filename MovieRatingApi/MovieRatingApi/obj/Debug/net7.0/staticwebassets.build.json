@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "liZDt6ShURlc8hRLqtGNsMWyRUxeS+9BrNKAzANqBxU=",
+  "Hash": "RhEUM5KQ2HKqr4p9+bHACLNfAuOInbyE9mCvtbeAcZE=",
   "Source": "MovieRatingApi",
   "BasePath": "_content/MovieRatingApi",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "MovieRatingApi/wwwroot",
       "Source": "MovieRatingApi",
-      "ContentRoot": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/",
+      "ContentRoot": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/",
       "BasePath": "_content/MovieRatingApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/index.html",
+      "Identity": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/index.html",
       "SourceId": "MovieRatingApi",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/",
+      "ContentRoot": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/wwwroot/",
       "BasePath": "_content/MovieRatingApi",
       "RelativePath": "index.html",
       "AssetKind": "All",

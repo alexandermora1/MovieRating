@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wsJTGtNX0BQQ2gKZeY9GfinhIRzLRkFgUBMYDy4fqyKD4lUa8Ceil8FWGWciF8i2XNoBqlYisk/Vp6WglYRk3A==",
+  "dgSpecHash": "5XIfYB41TBQPVizp2MN+dUqatfeHjF+jVCpzWd4iLhkzZGhGye+hV9bd8ukmxwnghim/5XqCVTrKdS5OYhvz+w==",
   "success": true,
-  "projectFilePath": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj",
+  "projectFilePath": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj",
   "expectedPackageFiles": [
     "/Users/alexandermora/.nuget/packages/azure.core/1.24.0/azure.core.1.24.0.nupkg.sha512",
     "/Users/alexandermora/.nuget/packages/azure.identity/1.6.0/azure.identity.1.6.0.nupkg.sha512",

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj": {}
+    "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj": {}
   },
   "projects": {
-    "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj": {
+    "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj",
+        "projectUniqueName": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj",
         "projectName": "MovieRatingApi",
-        "projectPath": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj",
+        "projectPath": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/MovieRatingApi.csproj",
         "packagesPath": "/Users/alexandermora/.nuget/packages/",
-        "outputPath": "/Users/alexandermora/Documents/MovieRating/MovieRatingApi/MovieRatingApi/obj/",
+        "outputPath": "/Users/alexandermora/Documents/MovieRating/MovieRating/MovieRatingApi/MovieRatingApi/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/alexandermora/.nuget/NuGet/NuGet.Config"
