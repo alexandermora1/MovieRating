@@ -11,4 +11,6 @@ public class Movie : IMovie
     public string Title { get; set; } = "";
     public string Genre { get; set; } = "";
     public string Image { get; set; } = null!;
+    public string ReleaseDate { get; set; } = "";
+    public string Rating { get; set; } = "";
 }
