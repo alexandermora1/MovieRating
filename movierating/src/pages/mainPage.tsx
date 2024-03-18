@@ -97,14 +97,14 @@ export const MainPage = () => {
                 <h1>Main Page</h1>
             </Box>
 
-            <Box >
+            <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
                     <h3>Top 10 movies</h3>                
                 </Box>
 
-                <List sx={{ width: "100%", maxWidth: 600 }}>
+                <List sx={{ width: "100%", maxWidth: 600, justifyContent: "center" }}>
                     {dummyMovies.map((movie) => (
-                        <ListItem key={movie.id} sx={{ display: "flex", alignItems: "flex-start", border: "solid 1px lightgray", padding: "10px", margin: "5px"}}>
+                        <ListItem key={movie.id} sx={{ display: "flex", alignItems: "flex-start", border: "solid 1px lightgray", padding: "10px", margin: "5px", backgroundColor: "white"}}>
                             <Avatar alt={movie.title} src={movie.poster} variant="square" sx={{ height: "100%", width: "20%", marginRight: "10px"}}/>
                             <ListItemText
                                 primary={                                    
