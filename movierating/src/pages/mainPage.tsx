@@ -2,157 +2,110 @@ import { Avatar, Box, Button, List, ListItem, ListItemText, Typography } from "@
 import React from "react";
 import { faDice, faDiceOne } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MovieList } from "../interfaces/MovieList";
 
 
 export const MainPage = () => {
 
     const [userRating, setUserRating] = React.useState(0);
-  
-    const dummyMovies = [
-        {
-          id: 1,
-          title: "The Shawshank Redemption",
-          year: "1994",
-          genre: "Drama",
-          poster: "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_SX300.jpg",
-          userRating: 5
-        },
-        {
-          id: 2,
-          title: "The Godfather",
-          year: "1972",
-          genre: "Crime, Drama",
-          poster: "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtYzZlODY3ZTk3OTFlXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg",
-          userRating: 4
-        },
-        {
-          id: 3,
-          title: "The Dark Knight",
-          year: "2008",
-          genre: "Action, Crime, Drama",
-          poster: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_SX300.jpg",
-          userRating: 5
-        },
-        {
-          id: 4,
-          title: "12 Angry Men",
-          year: "1957",
-          genre: "Crime, Drama",
-          poster: "https://example.com/posters/12angrymen.jpg",
-          userRating: 3
-        },
-        {
-          id: 5,
-          title: "Schindler's List",
-          year: "1993",
-          genre: "Biography, Drama, History",
-          poster: "https://example.com/posters/schindlerslist.jpg",
-          userRating: 4
-        },
-        {
-          id: 6,
-          title: "The Lord of the Rings: The Return of the King",
-          year: "2003",
-          genre: "Action, Adventure, Drama",
-          poster: "https://example.com/posters/returnoftheking.jpg",
-          userRating: 6
-        },
-        {
-          id: 7,
-          title: "Pulp Fiction",
-          year: "1994",
-          genre: "Crime, Drama",
-          poster: "https://example.com/posters/pulpfiction.jpg",
-          userRating: 5
-        },
-        {
-          id: 8,
-          title: "The Good, the Bad and the Ugly",
-          year: "1966",
-          genre: "Western",
-          poster: "https://example.com/posters/goodbadugly.jpg",
-          userRating: 4
-        },
-        {
-          id: 9,
-          title: "Fight Club",
-          year: "1999",
-          genre: "Drama",
-          poster: "https://example.com/posters/fightclub.jpg",
-          userRating: 5
-        },
-        {
-          id: 10,
-          title: "Forrest Gump",
-          year: "1994",
-          genre: "Drama, Romance",
-          poster: "https://example.com/posters/forrestgump.jpg",
-          userRating: 5
+    const [response, setResponse] = React.useState<MovieList[]>([]);
+
+    React.useEffect(() => {
+        const fetchMovies = async () => {
+            const res = await fetch("http://localhost:5238/api/movie");
+            const json = await res.json();
+            setResponse(json);
+            console.log(json);
         }
-      ];
+
+        fetchMovies();
+    }, [])
 
     return (
         <Box>
-            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-                <h1>Main Page</h1>
-            </Box>
-
             <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                 <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <h3>Top 10 movies</h3>                
+                    <h3>Seen 2024</h3>                
                 </Box>
 
                 <List sx={{ width: "100%", maxWidth: 600, justifyContent: "center" }}>
-                    {dummyMovies.map((movie) => (
-                        <ListItem key={movie.id} sx={{ display: "flex", alignItems: "flex-start", border: "solid 1px lightgray", padding: "10px", margin: "5px", backgroundColor: "white"}}>
-                            <Avatar alt={movie.title} src={movie.poster} variant="square" sx={{ height: "100%", width: "20%", marginRight: "10px"}}/>
-                            <ListItemText
-                                primary={                                    
+                    {response && response.map((movie, index) => (
+                        <ListItem 
+                            key={index} 
+                            sx={{ 
+                                display: "flex", 
+                                flexDirection: "column",
+                                alignItems: "flex-start", 
+                                padding: "10px", 
+                                margin: "3px", 
+                                backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#fdfdfd", //alternating row colors based on if index is even or odd
+                            }}
+                        >
+                            <Box sx={{ display: "flex", width: "100%", flexDirection: "row" }}>                            
+                                <Avatar alt={movie.title} src={movie.poster} variant="square" sx={{ height: "100%", width: "20%", marginRight: "20px", boxShadow: 5}}/>
+                                
+                                <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "space-between" }}>                                    
+                                    <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start" }}>
+                                        <Typography
+                                            variant="subtitle1"
+                                            color="text.primary"
+                                            sx={{ marginRight: 1,  }}
+                                        >
+                                            {movie.id}.
+                                        </Typography>
+                                                
                                         <Typography
                                             variant="h5"
                                             color="text.primary"
-                                        >
+                                            fontWeight="bold"
+                                        >                         
                                             {movie.title}
-                                        </Typography>                                    
-                                }
-                                secondary={
-                                    <Box>
-                                        <Typography                                                                                 
-                                            variant="body2"
-                                            color="text.primary"                                            
+                                        </Typography>    
+                                                
+                                        <Typography
+                                            variant="h6"
+                                            color="text.secondary"
+                                            sx={{ marginLeft: 1}}
                                         >
-                                            {movie.year}                                
-                                        </Typography>
+                                            ({movie.year})
+                                        </Typography>          
+                                    </Box>
+
+                                    <Box sx={{ display: "flex", flexDirection: "column", marginLeft: "20px", justifyContent: "flex-start", flexGrow: 1 }}>
                                         <Typography
                                             variant="body2"
                                             color="text.secondary"                                    
                                         >
                                             {movie.genre}
-                                        </Typography>    
+                                        </Typography>   
+                                    </Box>
+
+                                    
+                                    
+
+                                    <Box sx={{ display: "flex", justifyContent: "space-between", alignContent: "space-between", alignItems: "flex-end", marginLeft: "20px" }}>
                                         <Typography
                                             variant="body1"
-                                            color="text.primary"
-                                            sx={{ alignItems: "flex-end" }}                                        
+                                            color="text.primary"                                            
                                         >
                                             User rating: {movie.userRating}
-                                        </Typography>                
-                                    </Box>
-                                }
-                            >
-                            </ListItemText>                                                
+                                        </Typography> 
 
-                            
-                            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "flex-end", alignSelf: "flex-end" }}>
-                                <Typography>
-                                    Rate:
-                                </Typography>
-                                <Button                          
-                                    color="secondary"                                                                                                    
-                                    onClick={() => setUserRating(movie.userRating)}
-                                >
-                                    <FontAwesomeIcon icon={faDice} size="3x"/>
-                                </Button>
-                            </Box>
+                                        <Box sx={{ display: "flex", alignItems: "flex-end"}}>
+                                            <Typography variant="body1" color="text.secondary">Rate:</Typography>
+
+                                            <Button                          
+                                                color="secondary"                                                                                                    
+                                                // onClick={() => setUserRating()}  //TODO: PUT request to update user rating
+                                            >
+                                                <FontAwesomeIcon icon={faDice} size="3x"/>
+                                            </Button>
+                                        </Box>
+                                    </Box>      
+                                </Box>
+                                                                        
+                                                                                                   
+                            </Box>                                                                                                                        
                         </ListItem>
                     ))}
                 </List>
