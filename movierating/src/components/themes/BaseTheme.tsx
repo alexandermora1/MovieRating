@@ -1,112 +1,47 @@
-import { Theme, ThemeProvider, createTheme } from "@mui/material";
-import { create } from 'zustand';
-import React from "react";
+import { Theme, createTheme } from '@mui/material/styles';
+import React from 'react';
 
-
-declare module "@mui/material/styles" {
-    interface Palette {
-        darkgrey: Palette["primary"];
-    }
-    
-    interface PaletteOptions {
-        darkgray?: PaletteOptions["primary"];
-    }
-}
-
-declare module "@mui/material/Button" {
-    interface ButtonPropsColorOverrides {
-        darkgray: true;
-    }
-}
-
-let defaultTheme = createTheme({
-    palette: {
-        mode: "light",
-        background: {
-            default: "#fff",
-        },
-        darkgray: {
-            main: "#646464",
-            contrastText: "#fff",
+// Function to create a theme based on the mode
+export const BaseTheme = (mode: "light" | "dark"): Theme => createTheme({
+  palette: {
+    mode, // can be 'light' or 'dark'
+    ...(mode === 'light'
+      ? {
+          // palette values for light mode
+          primary: { main: '#1976d2' }, // Blue
+          secondary: { main: '#dc004e' }, // Pink
+          background: {
+            default: '#f0f2f5',
+            paper: '#ffffff',
+          },
+          text: {
+            primary: '#0a0a0a',
+            secondary: '#585858',
+          },
         }
-    },
-    breakpoints: {
-        values: {
-            xs: 0,
-            sm: 600,
-            md: 960,
-            lg: 1280,
-            xl: 1920,
+      : {
+          // palette values for dark mode
+          primary: { main: '#90caf9' }, // Light Blue
+          secondary: { main: '#f48fb1' }, // Light Pink
+          background: {
+            default: '#121212',
+            paper: '#1e1e1e',
+          },
+          text: {
+            primary: '#e0e0e0',
+            secondary: '#aaaaaa',
+          },
+        }),
+  },
+  components: {
+    // Global styles
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1rem',
         },
+      },
     },
+    // Add more component overrides here
+  },
 });
-
-type ColorMode = "light" | "dark";
-
-type ThemeState = {
-    theme: Theme;
-    setTheme: (theme: Theme) => void;
-    setMode: (colorMode: ColorMode) => void;
-    updateColors: (primary: string | undefined, secondary: string | undefined, success: string | undefined) => void;
-};
-
-export const themeStore = create<ThemeState>((setState) => ({
-    theme: defaultTheme,
-    setTheme: (theme) => setState((state) => ({ ...state, theme })),
-    setMode: (colorMode) => {
-        const currentState = themeStore.getState();
-        const updatedTheme = createTheme({
-            ...currentState.theme,
-            palette: {
-                ...currentState.theme.palette,
-                background: {
-                    default: colorMode === "light" ? "#fff" : "#000",
-                },
-                text: {
-                    primary: colorMode === "light" ? "#000" : "#fff",
-                },
-                mode: colorMode,
-                },    
-        });
-        
-        themeStore.setState({ ...currentState, theme: updatedTheme });
-    },
-    updateColors: (primary, secondary, success) => {
-        const currentState = themeStore.getState();
-        const updatedTheme = createTheme({
-            ...currentState.theme,
-            palette: {
-                ...currentState.theme.palette,
-                primary: {
-                    main: primary ? primary : currentState.theme.palette.primary.main,
-                },
-                secondary: {
-                    main: secondary ? secondary : currentState.theme.palette.secondary.main,
-                },
-                success: {
-                    main: success ? success : currentState.theme.palette.success.main,
-                },
-            },
-        });
-
-        themeStore.setState({ ...currentState, theme: updatedTheme });
-    },
-}));
-
-
-
-interface Props { children: JSX.Element | JSX.Element[] }
-
-const BaseTheme = ({ children }: Props) => {
-
-    const [theme, setTheme] = React.useState(themeStore.getState().theme);
-
-    return (
-        <ThemeProvider theme={defaultTheme}>
-            {children}
-        </ThemeProvider>
-    )
-}
-
-
-export { BaseTheme };
