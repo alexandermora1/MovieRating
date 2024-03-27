@@ -8,7 +8,7 @@ export const BaseTheme = (mode: "light" | "dark"): Theme => createTheme({
     ...(mode === 'light'
       ? {
           // palette values for light mode
-          primary: { main: '#1976d2' }, // Blue
+          primary: { main: '#005C45' }, // Blue
           secondary: { main: '#dc004e' }, // Pink
           background: {
             default: '#f0f2f5',
@@ -29,7 +29,7 @@ export const BaseTheme = (mode: "light" | "dark"): Theme => createTheme({
           },
           text: {
             primary: '#e0e0e0',
-            secondary: '#aaaaaa',
+            secondary: '#aaaaaa',            
           },
         }),
   },

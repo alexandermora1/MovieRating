@@ -38,7 +38,7 @@ export const HomePage = () => {
                                 alignItems: "flex-start", 
                                 padding: "10px", 
                                 margin: "3px", 
-                                backgroundColor: index % 2 === 0 ? "#f5f5f5" : "#fdfdfd", //alternating row colors based on if index is even or odd
+                                backgroundColor: index % 2 === 0 ? "background.default" : "background.paper", //alternating row colors based on if index is even or odd
                             }}
                         >
                             <Box sx={{ display: "flex", width: "100%", flexDirection: "row" }}>                            
@@ -48,7 +48,7 @@ export const HomePage = () => {
                                     <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start" }}>
                                         <Typography
                                             variant="subtitle1"
-                                            color="text.primary"
+                                            color="text.secondary"
                                             sx={{ marginRight: 1,  }}
                                         >
                                             {movie.id}.
