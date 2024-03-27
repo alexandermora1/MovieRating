@@ -2,6 +2,8 @@ import React from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, MenuItem, Container, Avatar, Button, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
 interface HeaderProps {
     toggleTheme: () => void;
@@ -9,7 +11,7 @@ interface HeaderProps {
 }
 
 const pages = ["Home", "Lists", "About"];
-const settings = ['Profile', 'Logout'];
+const settings = ["Profile', 'Logout"];
 
 const Header: React.FC<HeaderProps> = ({ toggleTheme, currentMode }) => {
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -98,8 +100,8 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, currentMode }) => {
             </Box>
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Toggle light/dark theme">
-                    <IconButton sx={{ ml: 1 }} onClick={toggleTheme} color="inherit">
-                        {currentMode === 'dark' ? '🌞' : '🌜'}
+                    <IconButton sx={{ mr: 2 }} onClick={toggleTheme} color="inherit">
+                        {currentMode === "dark" ? <FontAwesomeIcon icon={faSun} /> : <FontAwesomeIcon icon={faMoon}/> }
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Open settings">

@@ -23,8 +23,7 @@ const App: React.FC = () => {
     
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppRouter toggleTheme={toggleMode} currentMode={mode}/>         
-      
+      <AppRouter toggleTheme={toggleMode} currentMode={mode} />         
     </ThemeProvider>
   );
 }

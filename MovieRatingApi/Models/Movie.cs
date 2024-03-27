@@ -1,3 +1,4 @@
+using System.Collections;
 using System.ComponentModel.DataAnnotations;
 using MovieRatingApi.Interfaces;
 
@@ -12,7 +13,7 @@ public class Movie : IMovie
     public string Genre { get; set; } = "";
     public string Poster { get; set; } = "";
     public string Year { get; set; } = "";
-    public string UserRating { get; set; } = "";
-    
+    public virtual ICollection<Rating> UserRatings { get; set; } = new List<Rating>();
+    public double AverageRating { get; set; } = 0;
 }
 

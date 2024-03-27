@@ -21,7 +21,8 @@ public class MovieController : ControllerBase
     {
         try
         {
-            List<Movie> movies = await context.Movies.Take(20).ToListAsync();
+            List<Movie> movies = await context.Movies                
+                .Take(20).ToListAsync();
             return movies;
         }
         catch
@@ -35,7 +36,9 @@ public class MovieController : ControllerBase
     {
         try
         {
-            Movie? movie = await context.Movies.FindAsync(id);
+            Movie? movie = await context.Movies
+                .Include(m => m.UserRatings)
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
@@ -56,6 +59,31 @@ public class MovieController : ControllerBase
             context.Movies.Add(movie);
             await context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
+
+    [HttpPost("{movieId}/ratings")]
+    public async Task<ActionResult<Rating>> PostRating(int movieId, [FromBody] Rating rating)
+    {
+        try
+        {
+            var movie = await context.Movies
+                .Include(m => m.UserRatings)
+                .FirstOrDefaultAsync(m => m.Id == movieId);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            movie.UserRatings.Add(rating);
+            movie.AverageRating = movie.UserRatings.Average(r => r.Value);
+            await context.SaveChangesAsync();
+
+            return CreatedAtAction(nameof(GetMovie), new { id = movieId }, rating);
         }
         catch
         {
