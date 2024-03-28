@@ -13,6 +13,8 @@ export const HomePage = () => {
     const [addUserRating, setAddUserRating] = React.useState(0);
     const [response, setResponse] = React.useState<MovieList[]>([]);
     const [diceButtonlicked, setDiceButtonClicked] = React.useState(false);
+    const [updateAfterRating, setUpdateAfterRating] = React.useState(false);
+    const [selectedMovieId, setSelectedMovieId] = React.useState<number | null>(null);
 
     React.useEffect(() => {
         const fetchMovies = async () => {
@@ -21,12 +23,17 @@ export const HomePage = () => {
             const json = await res.json();
             console.log("Logging json: ", json);
             setResponse(json);
-            console.log("Logging after setResponse: ", json);
-            console.log(diceButtonlicked);
+            console.log("Logging after setResponse: ", json);            
         }
 
         fetchMovies();
-    }, [])    
+    }, [updateAfterRating])    
+
+
+    const handleOpenRating = (movieId: number) => {
+        setSelectedMovieId(movieId);
+        setDiceButtonClicked(true);
+    }
 
 
     const handleSetUserRating = async (movieId: number, rating: number) => {
@@ -65,6 +72,7 @@ export const HomePage = () => {
             console.log("Error submitting rating: ", error);
         }
 
+        setUpdateAfterRating(true);
         setDiceButtonClicked(false);
     }
 
@@ -88,7 +96,7 @@ export const HomePage = () => {
                                 alignItems: "flex-start", 
                                 padding: "10px", 
                                 margin: "3px", 
-                                backgroundColor: index % 2 === 0 ? "background.default" : "background.paper", //alternating row colors based on if index is even or odd
+                                backgroundColor: index % 2 === 0 ? "background.paper" : "background.default", //alternating row colors based on if index is even or odd
                             }}
                         >
                             <Box sx={{ display: "flex", width: "100%", flexDirection: "row" }}>                            
@@ -138,20 +146,17 @@ export const HomePage = () => {
                                             variant="body1"
                                             color="text.primary"                                            
                                         >
-                                            User rating: {movie.averageRating}
+                                            User rating: {parseFloat(movie.averageRating).toFixed(1)}   {/* One decimal. */}
                                         </Typography> 
 
                                         <Box sx={{ display: "flex", alignItems: "flex-end"}}>
-                                            <Typography variant="body1" color="text.secondary">Rate:</Typography>
+                                            {!diceButtonlicked ? <Typography variant="body1" color="text.secondary">Rate:</Typography> : null}
 
-                                            <Button                          
-                                                color="secondary"                                                                                                    
-                                                onClick={() => setDiceButtonClicked(!diceButtonlicked)}
-                                            >
-                                                {!diceButtonlicked ? (
-                                                    <FontAwesomeIcon icon={faDice} size="3x"/> 
-                                                    ) : (
-                                                        <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                                            <Button color="secondary" onClick={() => handleOpenRating(movie.id)} >                                    
+                                                    {!diceButtonlicked ? <FontAwesomeIcon icon={faDice} size="3x" /> : null}
+                                            </Button>
+                                                    {diceButtonlicked && selectedMovieId === movie.id && (
+                                                        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
                                                             <Button color="secondary" onClick={() => handleSetUserRating(movie.id, 1)}>
                                                                 <FontAwesomeIcon icon={faDiceOne} size="2x"/>
                                                             </Button>
@@ -171,8 +176,7 @@ export const HomePage = () => {
                                                                 <FontAwesomeIcon icon={faDiceSix} size="2x"/>
                                                             </Button>
                                                         </Box>
-                                                    )}
-                                            </Button>
+                                                    )}                                            
                                         </Box>
                                     </Box>      
                                 </Box>
