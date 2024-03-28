@@ -4,5 +4,5 @@ export interface MovieList {
     genre: string;
     poster: string;
     year: string;
-    userRating: string;
+    averageRating: string;
 }

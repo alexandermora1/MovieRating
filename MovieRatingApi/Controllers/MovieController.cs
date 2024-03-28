@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using MovieRatingApi.Models;
 using MovieRatingApi.Contexts;
 using Microsoft.AspNetCore.Mvc;
+using MovieRatingApi.DTO;
 
 namespace MovieRatingApi.Controllers;
 
@@ -17,13 +18,23 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Movie>>> GetMovies()
+    public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
     {
         try
         {
-            List<Movie> movies = await context.Movies                
-                .Take(20).ToListAsync();
-            return movies;
+            var movies = await context.Movies
+                .Select(m => new MovieDto
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Genre = m.Genre,
+                    Poster = m.Poster,
+                    Year = m.Year,
+                    AverageRating = m.UserRatings.Any() ? m.UserRatings.Average(r => r.Value) : 0
+                })
+                .ToListAsync();
+                
+            return Ok(movies);
         }
         catch
         {
@@ -32,18 +43,28 @@ public class MovieController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Movie>> GetMovie(int id)
+    public async Task<ActionResult<MovieDto>> GetMovie(int id)
     {
         try
         {
-            Movie? movie = await context.Movies
-                .Include(m => m.UserRatings)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var movie = await context.Movies
+                .Select(m => new MovieDto
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Genre = m.Genre,
+                    Poster = m.Poster,
+                    Year = m.Year,
+                    AverageRating = m.UserRatings.Average(r => r.Value)
+                })
+                .FirstOrDefaultAsync();
+            
             if (movie == null)
             {
                 return NotFound();
             }
-            return movie;
+
+            return Ok(movie);
         }
         catch
         {
@@ -52,13 +73,31 @@ public class MovieController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Movie>> PostMovie(Movie movie)
+    public async Task<ActionResult<MovieDto>> PostMovie([FromBody] CreateMovieDto createMovieDto)
     {
-        try
-        {
+        try {
+            var movie = new Movie
+            {
+                Title = createMovieDto.Title,
+                Genre = createMovieDto.Genre,
+                Poster = createMovieDto.Poster,
+                Year = createMovieDto.Year
+            };
+
             context.Movies.Add(movie);
             await context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+
+            var movieDto = new MovieDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Genre = movie.Genre,
+                Poster = movie.Poster,
+                Year = movie.Year,
+                AverageRating = 0
+            };
+
+            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movieDto );
         }
         catch
         {
@@ -67,8 +106,13 @@ public class MovieController : ControllerBase
     }
 
     [HttpPost("{movieId}/ratings")]
-    public async Task<ActionResult<Rating>> PostRating(int movieId, [FromBody] Rating rating)
+    public async Task<ActionResult> PostRating(int movieId, [FromBody] RatingDto ratingDto)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         try
         {
             var movie = await context.Movies
@@ -79,11 +123,23 @@ public class MovieController : ControllerBase
                 return NotFound();
             }
 
+            var rating = new Rating
+            {
+                MovieId = movieId,
+                Value = ratingDto.Value
+            };
+
             movie.UserRatings.Add(rating);
             movie.AverageRating = movie.UserRatings.Average(r => r.Value);
             await context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetMovie), new { id = movieId }, rating);
+            var ratingResponseDto = new RatingResponseDto
+            {
+                Id = rating.Id,
+                Value = rating.Value
+            };
+
+            return CreatedAtAction(nameof(GetMovie), new { id = movieId }, ratingResponseDto);
         }
         catch
         {
@@ -92,16 +148,23 @@ public class MovieController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> PutMovie(int id, Movie movie)
+    public async Task<ActionResult> PutMovie(int id, [FromBody] UpdateMovieDto updateMovieDto)
     {
-        if (id != movie.Id)
-        {
-            return BadRequest();
-        }
-        try
-        {
-            context.Entry(movie).State = EntityState.Modified;
+        try {
+            var movie = await context.Movies.FindAsync(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            movie.Title = updateMovieDto.Title ?? movie.Title;
+            movie.Genre = updateMovieDto.Genre ?? movie.Genre;
+            movie.Poster = updateMovieDto.Poster ?? movie.Poster;
+            movie.Year = updateMovieDto.Year ?? movie.Year;
+
             await context.SaveChangesAsync();
+       
             return NoContent();
         }
         catch
