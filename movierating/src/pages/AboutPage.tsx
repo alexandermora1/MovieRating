@@ -15,10 +15,11 @@ export const AboutPage = () => {
     const [searchInput, setSearchInput] = React.useState("");
     const [movie, setMovie] = React.useState<Movie | null>(null);
 
+    const apiKey = process.env.REACT_APP_API_KEY;
     
     const fetchMovies = async () => {
         if (searchInput) {
-            const res = await fetch(`http://www.omdbapi.com/?apikey=23e45316&s=${searchInput}`);            
+            const res = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&s=${searchInput}`);            
             const json = await res.json();
             console.log("Logging json: ", json);
             if (json.Search) {
