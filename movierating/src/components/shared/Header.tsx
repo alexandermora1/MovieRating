@@ -5,6 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 
+
+// https://mui.com/material-ui/react-app-bar/
+// Most of the code in this file is from the above link (specifically from the example: "App bar with responsive menu")
+
 interface HeaderProps {
     toggleTheme: () => void;
     currentMode: "light" | "dark";
@@ -41,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, currentMode }) => {
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", backgroundColor: "black"}}>
+    <Box sx={{ display: "flex", width: "100vw", flexDirection: "column", alignItems: "center"}}>
         <AppBar position="static">
         <Container maxWidth="xl">
             <Toolbar disableGutters>
@@ -101,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, currentMode }) => {
             <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Toggle light/dark theme">
                     <IconButton sx={{ mr: 2 }} onClick={toggleTheme} color="inherit">
-                        {currentMode === "dark" ? <FontAwesomeIcon icon={faSun} /> : <FontAwesomeIcon icon={faMoon}/> }
+                        {currentMode === "dark" ? <FontAwesomeIcon icon={faSun}/> : <FontAwesomeIcon icon={faMoon}/> }
                     </IconButton>
                 </Tooltip>
                 <Tooltip title="Open settings">

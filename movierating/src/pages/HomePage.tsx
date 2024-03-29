@@ -1,8 +1,9 @@
-import { Avatar, Box, Button, List, ListItem, ListItemText, Typography } from "@mui/material";
+import { Avatar, Box, Button, Fab, List, ListItem, ListItemText, Typography } from "@mui/material";
 import React from "react";
 import { faDice, faDiceFive, faDiceFour, faDiceOne, faDiceSix, faDiceThree, faDiceTwo } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MovieList } from "../interfaces/MovieList";
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -82,9 +83,20 @@ export const HomePage = () => {
     return (
         <Box>
             <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
-                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <h3>Seen 2024</h3>                
+
+                <Box sx={{ display: "flex", width: "100%", justifyContent: "flex-end", alignItems: "center", marginRight: 4 }}>
+                    <Fab variant="extended" color="primary" sx={{ marginTop: 4, marginLeft: 2 }}>
+                            <AddIcon sx={{ marginRight: 1 }}/>
+                            Add movie
+                    </Fab>                
+                </Box> 
+                
+                <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
+                    <Typography variant="h3" sx={{ marginTop: 5, marginBottom: 1 }} >Seen 2024</Typography>                    
                 </Box>
+                                    
+
+                
 
                 <List sx={{ width: "100%", maxWidth: 600, justifyContent: "center" }}>
                     {response && response.map((movie, index) => (
@@ -104,49 +116,29 @@ export const HomePage = () => {
                                 
                                 <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "space-between" }}>                                    
                                     <Box sx={{ display: "flex", justifyContent: "flex-start", alignItems: "flex-start" }}>
-                                        <Typography
-                                            variant="subtitle1"
-                                            color="text.secondary"
-                                            sx={{ marginRight: 1,  }}
-                                        >
+                                        <Typography variant="subtitle1" color="text.secondary" sx={{ marginRight: 1,  }} >
                                             {movie.id}.
                                         </Typography>
                                                 
-                                        <Typography
-                                            variant="h5"
-                                            color="text.primary"
-                                            fontWeight="bold"
-                                        >                         
+                                        <Typography variant="h5" color="text.primary" fontWeight="bold" >                         
                                             {movie.title}
                                         </Typography>    
                                                 
-                                        <Typography
-                                            variant="h6"
-                                            color="text.secondary"
-                                            sx={{ marginLeft: 1}}
-                                        >
+                                        <Typography variant="h6" color="text.secondary" sx={{ marginLeft: 1}} >
                                             ({movie.year})
                                         </Typography>          
                                     </Box>
 
                                     <Box sx={{ display: "flex", flexDirection: "column", marginLeft: "20px", justifyContent: "flex-start", flexGrow: 1 }}>
-                                        <Typography
-                                            variant="body2"
-                                            color="text.secondary"                                    
-                                        >
+                                        <Typography variant="body2" color="text.secondary" >
                                             {movie.genre}
                                         </Typography>   
                                     </Box>
 
                                     
-                                    
-
                                     <Box sx={{ display: "flex", justifyContent: "space-between", alignContent: "space-between", alignItems: "flex-end", marginLeft: "20px" }}>
-                                        <Typography
-                                            variant="body1"
-                                            color="text.primary"                                            
-                                        >
-                                            User rating: {parseFloat(movie.averageRating).toFixed(1)}   {/* One decimal. */}
+                                        <Typography variant="body1" color="text.primary" >
+                                            User rating: {parseFloat(movie.averageRating).toFixed(1)}   {/* Limit to one decimal. */}
                                         </Typography> 
 
                                         <Box sx={{ display: "flex", alignItems: "flex-end"}}>
@@ -179,13 +171,11 @@ export const HomePage = () => {
                                                     )}                                            
                                         </Box>
                                     </Box>      
-                                </Box>
-                                                                        
-                                                                                                   
+                                </Box>                                                                                                   
                             </Box>                                                                                                                        
-                        </ListItem>
+                        </ListItem> 
                     ))}
-                </List>
+                </List> {/* End of List */}
             </Box>
         </Box>
         

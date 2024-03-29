@@ -1,21 +1,7 @@
-import { Theme, createTheme } from '@mui/material/styles';
+import { Palette, PaletteOptions, Theme, createTheme } from '@mui/material/styles';
 import React from 'react';
 
-interface Palette {
-    mode: 'light' | 'dark';
-    primary: { main: string };
-    secondary: { main: string };
-    background: {
-        default: string;
-        paper: string;
-        secondary?: string;
-    };
-    text: {
-        primary: string;
-        secondary: string;
-    };
-    
-}
+
 
 // Function to create a theme based on the mode
 export const BaseTheme = (mode: "light" | "dark"): Theme => createTheme({
@@ -24,11 +10,11 @@ export const BaseTheme = (mode: "light" | "dark"): Theme => createTheme({
     ...(mode === 'light'
       ? {
           // palette values for light mode
-          primary: { main: '#005C45' }, // Blue
+          primary: { main: '#121212' }, // Black
           secondary: { main: '#dc004e' }, // Red
           background: {
-            default: '#f0f2f5',
-            paper: '#ffffff',
+            default: '#f7f1e0',
+            paper: '#efe3c6',
           },
           text: {
             primary: '#0a0a0a',
@@ -37,7 +23,7 @@ export const BaseTheme = (mode: "light" | "dark"): Theme => createTheme({
         }
       : {
           // palette values for dark mode
-          primary: { main: '#90caf9' }, // Light Blue
+          primary: { main: '#efe3c6' }, // Light beige
           secondary: { main: "#dc004e" }, // Red (same as light mode)
           background: {
             default: '#121212',
