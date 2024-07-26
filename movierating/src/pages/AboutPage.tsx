@@ -1,5 +1,5 @@
 
-import { Avatar, Box, Button, Fade, Grow, Icon, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Fade, Grow, Icon, MenuItem, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 
@@ -7,13 +7,15 @@ interface Movie {
     Title: string;
     Year: string;
     Poster: string;
-    Genre?: string; // Assuming Genre might not always be present
+    imdbID: string;
+    Genre?: string; // Assuming Genre might not always be available
 }
 
 export const AboutPage = () => {
 
     const [searchInput, setSearchInput] = React.useState("");
-    const [movie, setMovie] = React.useState<Movie | null>(null);
+    const [movie, setMovie] = React.useState<Movie[]>([]);
+    const [selectedMovie, setSelectedMovie] = React.useState<Movie | null>(null);
 
     const apiKey = process.env.REACT_APP_API_KEY;
     
@@ -23,27 +25,36 @@ export const AboutPage = () => {
             const json = await res.json();
             console.log("Logging json: ", json);
             if (json.Search) {
-                setMovie(json.Search[0]);
+                setMovie(json.Search);
                 console.log("Logging movie: ", movie);
             } else {
-                setMovie(null);
+                setMovie([]);
             }
         } else {
-            setMovie(null);
+            setMovie([]);
         }
     }
 
+    React.useEffect(() => {
+      fetchMovies();
+    }, [searchInput]);
+  
+    const handleMovieSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedMovie = movie?.find(movie => movie.imdbID === event.target.value) || null;
+      setSelectedMovie(selectedMovie);
+      console.log("Logging selected movie: ", selectedMovie);
+    }
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-            <Typography variant="h3" sx={{ marginBottom: 5 }} >Add new movie Page</Typography>
+            <Typography variant="h3" sx={{ marginBottom: 5 }} >Add new movie page</Typography>
 
             <Fade in={true} timeout={1000}>
                 <Box 
                     sx={{ 
                         width: "50%",
-                        height: "50vh",
+                        height: "auto",
                         display: "flex", 
                         flexDirection: "column", 
                         justifyContent: "flex-start", 
@@ -66,15 +77,33 @@ export const AboutPage = () => {
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                         />
-                        <Button onClick={fetchMovies} variant="contained" sx={{ marginLeft: 2 }}>Search</Button>
                     </Box>
-                    {movie && (
+
+                    {movie.length > 0 && (
+                        <Box sx={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 4 }}>
+                          <TextField
+                            select
+                            label="Select movie"
+                            value={selectedMovie ? selectedMovie.imdbID : ""}
+                            onChange={handleMovieSelection}
+                            variant="outlined"
+                            fullWidth
+                          >
+                            {movie.map((movie: Movie, index: number) => (
+                              <MenuItem key={movie.imdbID} value={movie.imdbID}>
+                                {movie.Title}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </Box>
+                    )}
+                    {selectedMovie && (
                         <Box sx={{ display: "flex", width: "100%", flexDirection: "row", marginTop: 4 }}>                            
-                            <Avatar alt={movie.Title} src={movie.Poster} variant="square" sx={{ height: 128, width: 128, marginRight: "20px", boxShadow: 5 }}/>
-                            <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1, justifyContent: "space-between" }}>                                    
-                                <Typography variant="h5" color="text.primary" fontWeight="bold">{movie.Title}</Typography>    
-                                <Typography variant="body1" color="text.secondary">{movie.Year}</Typography>
-                                <Typography variant="body2" color="text.secondary">{movie.Genre}</Typography>
+                            <Avatar alt={selectedMovie.Title} src={selectedMovie.Poster} variant="square" sx={{ height: 200, width: 128, marginRight: "20px", boxShadow: 5 }}/>
+                            <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>                                    
+                                <Typography variant="h5" color="text.primary" fontWeight="bold">{selectedMovie.Title}</Typography>    
+                                <Typography variant="body1" color="text.secondary">{selectedMovie.Year} </Typography>
+                                <Typography variant="body2" color="text.secondary">{selectedMovie.Genre}</Typography>
                             </Box>
                         </Box>
                     )}
