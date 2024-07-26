@@ -19,12 +19,19 @@ export const HomePage = () => {
 
     React.useEffect(() => {
         const fetchMovies = async () => {
+          try {
             const res = await fetch("http://localhost:5238/api/movie");
             console.log("Logging res: ", res);
+            if (!res.ok) {
+              throw new Error("Failed to fetch movies (response not ok)")
+            }
             const json = await res.json();
             console.log("Logging json: ", json);
             setResponse(json);
             console.log("Logging after setResponse: ", json);            
+          } catch (error) {
+            console.error("Error fetching movies (catch): ", error);
+          }
         }
 
         fetchMovies();
@@ -98,7 +105,7 @@ export const HomePage = () => {
 
                 
 
-                <List sx={{ width: "100%", maxWidth: 600, justifyContent: "center" }}>
+                <List sx={{ width: "100%", maxWidth: { lg: 1200, md: "auto"}, justifyContent: "center" }}> 
                     {response && response.map((movie, index) => (
                         <ListItem 
                             key={index} 
@@ -107,7 +114,7 @@ export const HomePage = () => {
                                 flexDirection: "column",
                                 alignItems: "flex-start", 
                                 padding: "10px", 
-                                margin: "3px", 
+                                
                                 backgroundColor: index % 2 === 0 ? "background.paper" : "background.default", //alternating row colors based on if index is even or odd
                             }}
                         >
