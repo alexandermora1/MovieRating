@@ -1,5 +1,5 @@
 
-import { Avatar, Box, Button, Fade, Grow, Icon, MenuItem, TextField, Typography } from '@mui/material'
+import { Avatar, Box, Button, Fade, Grow, Icon, List, ListItem, ListItemAvatar, ListItemText, MenuItem, TextField, Typography } from '@mui/material'
 import React from 'react'
 
 
@@ -39,10 +39,9 @@ export const AboutPage = () => {
       fetchMovies();
     }, [searchInput]);
   
-    const handleMovieSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const selectedMovie = movie?.find(movie => movie.imdbID === event.target.value) || null;
-      setSelectedMovie(selectedMovie);
-      console.log("Logging selected movie: ", selectedMovie);
+    const handleMovieSelection = (movie: Movie) => {
+      setSelectedMovie(movie);
+      console.log("Logging selected movie: ", movie);
     }
 
     return (
@@ -77,29 +76,37 @@ export const AboutPage = () => {
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                         />
+                        {movie.length > 0 && (
+                          <Box sx={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 4 }}>
+                            <List dense>
+                              {movie.map((movie: Movie, index: number) => (
+                                <ListItem 
+                                  key={movie.imdbID}
+                                  button
+                                  onClick={() => handleMovieSelection(movie)}
+                                >
+                                  <ListItemAvatar>
+                                    <Avatar src={movie.Poster} variant="square" sx={{ maxWidth: "100%", height: "100%", boxShadow: 5 }}/>
+                                  </ListItemAvatar>
+                                  <ListItemText
+                                    primary={movie.Title}
+                                    secondary={movie.Year}
+                                  />
+                                </ListItem>
+                              ))}
+                            </List>
+                          </Box>
+                        )}
                     </Box>
 
-                    {movie.length > 0 && (
-                        <Box sx={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 4 }}>
-                          <TextField
-                            select
-                            label="Select movie"
-                            value={selectedMovie ? selectedMovie.imdbID : ""}
-                            onChange={handleMovieSelection}
-                            variant="outlined"
-                            fullWidth
-                          >
-                            {movie.map((movie: Movie, index: number) => (
-                              <MenuItem key={movie.imdbID} value={movie.imdbID}>
-                                {movie.Title}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                        </Box>
-                    )}
                     {selectedMovie && (
                         <Box sx={{ display: "flex", width: "100%", flexDirection: "row", marginTop: 4 }}>                            
-                            <Avatar alt={selectedMovie.Title} src={selectedMovie.Poster} variant="square" sx={{ height: 200, width: 128, marginRight: "20px", boxShadow: 5 }}/>
+                            <Avatar 
+                            alt={selectedMovie.Title} 
+                            src={selectedMovie.Poster} 
+                            variant="square" 
+                            sx={{ maxWidth: "100%", height: "auto", marginRight: "20px", boxShadow: 5 }}
+                            />
                             <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>                                    
                                 <Typography variant="h5" color="text.primary" fontWeight="bold">{selectedMovie.Title}</Typography>    
                                 <Typography variant="body1" color="text.secondary">{selectedMovie.Year} </Typography>
