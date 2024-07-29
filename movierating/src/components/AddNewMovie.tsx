@@ -44,10 +44,12 @@ export const AddNewMovie = () => {
       setSearchInput("");      
     }
 
-    return (
-        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+    const addMovie = () => {
+        console.log("Adding movie: ", selectedMovie);
+    }
 
-            <Typography variant="h3" sx={{ marginBottom: 5 }} >Add new movie page</Typography>
+    return (
+        <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "50vh", width: "100%", marginTop: 5 }}>
 
             <Fade in={true} timeout={1000}>
                 <Box 
@@ -116,8 +118,8 @@ export const AddNewMovie = () => {
                     )}
                                     
 
-                    <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "flex-end", alignItems: "flex-end" }}>
-                        <Button variant="contained" color="primary">Add movie</Button>
+                    <Box sx={{ display: "flex", width: "100%", height: "100%", justifyContent: "flex-end", alignItems: "flex-end", marginTop: 4 }}>
+                        <Button onClick={addMovie} variant="contained" color="primary">Add movie</Button>
                     </Box>
                 </Box>
                 
