@@ -6,3 +6,11 @@ export interface MovieList {
     year: string;
     averageRating: string;
 }
+
+export interface Movie {
+  Title: string;
+  Year: string;
+  Poster: string;
+  imdbID: string;
+  Genre?: string;
+}
