@@ -35,13 +35,20 @@ export const AboutPage = () => {
         }
     }
 
+    const fetchAndSetMovieDetails = async (imdbID: string) => {
+      const res = await fetch(`http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}`);
+      const json = await res.json();
+      setSelectedMovie(json);
+      console.log("Logging selected movie: ", json);
+    }
+
     React.useEffect(() => {
       fetchMovies();
     }, [searchInput]);
   
-    const handleMovieSelection = (movie: Movie) => {
-      setSelectedMovie(movie);
-      console.log("Logging selected movie: ", movie);
+    const handleMovieSelection = (movie: Movie) => {      
+      fetchAndSetMovieDetails(movie.imdbID);
+      setSearchInput("");      
     }
 
     return (
@@ -55,7 +62,7 @@ export const AboutPage = () => {
                         width: "50%",
                         height: "auto",
                         display: "flex", 
-                        flexDirection: "column", 
+                        flexDirection: "column",
                         justifyContent: "flex-start", 
                         alignItems: "center", 
                         backgroundColor: "background.paper",
@@ -67,7 +74,7 @@ export const AboutPage = () => {
                     
                     <Typography variant="h5" sx={{ marginBottom: 3}}>Add new movie</Typography>
                     
-                    <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
+                    <Box sx={{ display: "flex", width: "100%", flexDirection: "column", justifyContent: "center" }}>
                         <TextField
                             variant="outlined"
                             id="search-field"
@@ -76,13 +83,13 @@ export const AboutPage = () => {
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
                         />
+                      
                         {movie.length > 0 && (
                           <Box sx={{ display: "flex", flexDirection: "column", width: "100%", marginTop: 4 }}>
                             <List dense>
                               {movie.map((movie: Movie, index: number) => (
                                 <ListItem 
-                                  key={movie.imdbID}
-                                  button
+                                  key={movie.imdbID}                                  
                                   onClick={() => handleMovieSelection(movie)}
                                 >
                                   <ListItemAvatar>
@@ -105,12 +112,12 @@ export const AboutPage = () => {
                             alt={selectedMovie.Title} 
                             src={selectedMovie.Poster} 
                             variant="square" 
-                            sx={{ maxWidth: "100%", height: "auto", marginRight: "20px", boxShadow: 5 }}
+                            sx={{ maxWidth: "100%", height: "auto", marginRight: "10px", boxShadow: 5 }}
                             />
                             <Box sx={{ display: "flex", flexDirection: "column", flexGrow: 1 }}>                                    
                                 <Typography variant="h5" color="text.primary" fontWeight="bold">{selectedMovie.Title}</Typography>    
                                 <Typography variant="body1" color="text.secondary">{selectedMovie.Year} </Typography>
-                                <Typography variant="body2" color="text.secondary">{selectedMovie.Genre}</Typography>
+                                <Typography variant="body2" color="text.secondary">{selectedMovie.Genre}</Typography>                                
                             </Box>
                         </Box>
                     )}
