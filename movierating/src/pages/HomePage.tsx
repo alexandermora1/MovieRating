@@ -17,7 +17,7 @@ export const HomePage = () => {
     const [diceButtonlicked, setDiceButtonClicked] = React.useState(false);
     const [updateAfterRating, setUpdateAfterRating] = React.useState(false);
     const [selectedMovieId, setSelectedMovieId] = React.useState<number | null>(null);
-    const [showAddNew, setShowAddNew] = React.useState(false);
+    const [showAddNewMovieBox, setShowAddNewMovieBox] = React.useState(false);
 
     React.useEffect(() => {
         const fetchMovies = async () => {
@@ -66,28 +66,22 @@ export const HomePage = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(ratingData),
-                
-                
+                body: JSON.stringify(ratingData),                                
             });
-
             if (!response.ok) {
                 throw new Error("Failed to post rating");
             }
-
             const data = await response.json();
             console.log("Rating successful: ", data);
-
         } catch (error) {
             console.log("Error submitting rating: ", error);
         }
-
         setUpdateAfterRating(true);
         setDiceButtonClicked(false);
     }
 
-    const addNewMovie = () => {
-        setShowAddNew(true);
+    const showAddNewBox = () => {
+        setShowAddNewMovieBox(true);
     }
 
 
@@ -96,14 +90,16 @@ export const HomePage = () => {
         <Box>
             <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
 
-                {showAddNew ? <AddNewMovie /> : 
+                {showAddNewMovieBox ? ( 
+                <AddNewMovie showAddNewMovieBox={showAddNewMovieBox} setShowAddNewMovieBox={setShowAddNewMovieBox}/>
+                 ) : (
                 <Box sx={{ display: "flex", width: "100%", justifyContent: "flex-end", alignItems: "center", marginRight: 4 }}>
-                    <Fab onClick={addNewMovie} variant="extended" color="primary" sx={{ marginTop: 4, marginLeft: 2 }}>
+                    <Fab onClick={showAddNewBox} variant="extended" color="primary" sx={{ marginTop: 4, marginLeft: 2 }}>
                             <AddIcon sx={{ marginRight: 1 }}/>
                             Add movie
                     </Fab>                
                 </Box> 
-                }
+                )}
                 
                 <Box sx={{ display: "flex", width: "100%", justifyContent: "center" }}>
                     <Typography variant="h3" sx={{ marginTop: 5, marginBottom: 1 }} >Seen 2024</Typography>                    

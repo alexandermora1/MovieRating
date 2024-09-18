@@ -4,11 +4,17 @@ import React from 'react'
 import { Movie } from '../interfaces/MovieList';
 
 
-export const AddNewMovie = () => {
+interface ShowAddNewMovieBox {
+  showAddNewMovieBox: boolean;
+  setShowAddNewMovieBox: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const AddNewMovie: React.FC<ShowAddNewMovieBox> = ({ setShowAddNewMovieBox}) => {
 
     const [searchInput, setSearchInput] = React.useState("");
     const [movie, setMovie] = React.useState<Movie[]>([]);
     const [selectedMovie, setSelectedMovie] = React.useState<Movie | null>(null);
+    
 
     const apiKey = process.env.REACT_APP_API_KEY;
     
@@ -46,7 +52,12 @@ export const AddNewMovie = () => {
 
     const addMovie = () => {
         console.log("Adding movie: ", selectedMovie);
+        setShowAddNewMovieBox(false);
     }
+
+    const showAddNewBox = () => {
+      setShowAddNewMovieBox(false);
+  }
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "50vh", width: "100%", marginTop: 5 }}>
@@ -67,7 +78,11 @@ export const AddNewMovie = () => {
                     }}
                 >
                     
-                    <Typography variant="h5" sx={{ marginBottom: 3}}>Add new movie</Typography>
+                    <Box sx={{ display: "flex", width: "100%", justifyContent: "flex-start", marginBottom: 2 }}>
+                      <Button variant="outlined" onClick={showAddNewBox} sx={{ width: "30px", height: "30px", minWidth: 0 }}>X</Button>
+                    </Box>
+                    
+                    <Typography variant="h4" sx={{ marginBottom: 3}}>Add new movie</Typography>
                     
                     <Box sx={{ display: "flex", width: "100%", flexDirection: "column", justifyContent: "center" }}>
                         <TextField
