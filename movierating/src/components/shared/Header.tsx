@@ -91,12 +91,12 @@ const Header: React.FC<HeaderProps> = ({ toggleTheme, currentMode }) => {
             >
                 Logo
             </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: "center" }}>
                 {pages.map((page) => (
                     <Button
                         key={page}
                         onClick={() => handleNavigate(page)}
-                        sx={{ my: 2, color: 'white', display: 'block' }}
+                        sx={{ my: 2, color: 'white', display: 'block', px: 2 }}
                     >
                         {page}
                     </Button>
