@@ -130,4 +130,5 @@ The app communicates with the backend via the following endpoints:
 - **User Authentication**: Allow users to log in and save their movie lists and ratings.
 - **Pagination**: Add pagination to handle large lists of movies.
 - **Lists**: Allow users to create new lists with user defined themes and genres.
+- **Universal Design**: Use principles of universal design to improve accessibility.
 
